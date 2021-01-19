@@ -2,7 +2,7 @@ public class StackNodes{
     StackNodes top;
     StackNodes previous;
     String item;
- 
+
     public StackNodes(){
          this.top = null;
          this.previous = null;
