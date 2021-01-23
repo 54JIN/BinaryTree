@@ -3,56 +3,64 @@ public class BinaryTree{
     BinaryTree leftTree;
     BinaryTree rightTree;
     int data;
+    //having two subtrees without data being initialized
     public BinaryTree(){
         this.leftTree = null;
         this.rightTree = null;
     }
+    //the tree will contain data with subtrees bieng null
     public BinaryTree(int data){
         this.data = data;
         this.leftTree = null;
         this.rightTree = null;
     }
+    public void addBinaryTree(BinaryTree root, int data){
+        if(root.data == data){
+            throw new RuntimeException("Data already exist");
+        }
+        else if(data < root.data && root.leftTree == null){
+            BinaryTree temp = new BinaryTree(data);
+            root.leftTree = temp;
+        }
+        else if(data > root.data && root.rightTree == null){
+            BinaryTree temp = new BinaryTree(data);
+            root.rightTree = temp;
+        }
+        else if(data < root.data){
+            addBinaryTree(root.leftTree, data);
+        }
+        else if(data > root.data){
+            addBinaryTree(root.rightTree, data);
+        }
+    }
+    //add on to the data
     public void add(int data){
         if(root == null){
             BinaryTree tempRoot = new BinaryTree(data);
             root = tempRoot;
         }
         else{
-            if(data < root.data){
-                BinaryTree tempLeft = new BinaryTree(data);
-                root.leftTree = tempLeft;
-            }
-            else if(data > root.data){
-                BinaryTree tempRight = new BinaryTree(data);
-                root.rightTree = tempRight;
-            }
-            else{
-                throw new RuntimeException("Root equals data or error");
-            }
+            addBinaryTree(root, data);
         }
     }
     public boolean contains(int data){
-        return containsData(data, root);
+        return containsData(root, data);
     }
-    public boolean containsData(int data, BinaryTree root){
+    public boolean containsData(BinaryTree root, int data){
         if(root == null){
-            System.out.println(root.data);
             return false;
         }
-        else if(root.data == data){
-            return true;
-        }
         else if(data < root.data){
-            return containsData(data, root.leftTree);
+            return containsData(root.leftTree, data);
         }
-        else
-            return containsData(data, root.rightTree);
+        else if(data > root.data){
+            return containsData(root.rightTree, data);
+        }
+        return true;
     }
     public static void main(String[] args){
         BinaryTree temp = new BinaryTree();
-        temp.add(10);
-        temp.add(20);
-        System.out.println(temp.contains(10));
-        System.out.println(temp.contains(20));
+        temp.add(3);
+        System.out.println(temp.contains(1000));
     }
 }
